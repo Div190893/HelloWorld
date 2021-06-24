@@ -1,0 +1,58 @@
+import easygui as gui
+from easygui.boxes.button_box import buttonbox
+from easygui.boxes.derived_boxes import msgbox
+name=None
+email=None
+user_name=None
+user_list=['s']
+
+def ask_email():
+    mail=gui.enterbox(msg="Enter ur Email:",title="Your Email Please !!! can't be left blank...")
+    return mail
+def check_email(e):
+    while e=="":
+        e=ask_email()
+    return e
+    pass
+def ask_DOB():
+    DOB=gui.enterbox(msg="Enter ur DOB in mentioned format (YYYY-MM-DD)",
+        title="DOB in format given can't be left blank...")
+    return DOB
+def check_DOB(d):
+    while d=="":
+        d=ask_DOB()
+    return d
+    pass
+
+def ask_username():
+    user_name=gui.enterbox("Enter your username:",title="Enter ur username can't be left blank")
+    return user_name
+    pass
+def check_existing_user_name(u):
+    if u in user_list:
+        gui.msgbox("Your Selected user name is already taken, kindly try something else!!!",
+        title="Username already exist")
+        u=ask_username()
+    else:
+        user_list.append(u)
+    return u
+def check_username(u):
+    while u=="":
+        u=ask_username()
+    check_existing_user_name(u)
+    pass
+
+name=gui.enterbox(msg="Enter ur Name:",title="Your Name Please !!!")
+email=ask_email()
+email=check_email(email)
+DOB=ask_DOB()
+check_DOB(DOB)
+user_name_choice=buttonbox(msg="Want to enter a user name on ur own or we suggest some??",
+        choices=("I will create","Need options to select"))
+gui.msgbox(msg=f"As you have selected '{user_name_choice}' proceed accordingly")
+if user_name_choice=="I will create":
+    user_name=ask_username()
+    user_name=check_username(user_name)
+if user_name_choice=="Need options to select":
+    user_name=gui.buttonbox("Select from below mentioned:",choices=("Choice--1","Choice--2","Choice--3"))
+gui.msgbox(f"Your user id is:{user_name}",title="Selected User name is being displayed")
